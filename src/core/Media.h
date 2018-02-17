@@ -140,6 +140,12 @@ public:
     qint64 duration() const;
 
     /*!
+        \brief Get audio slave
+        \return current audio slave
+    */
+    QString audioSlave() const;
+
+    /*!
         \brief Duplicate (provided for convenience)
 
         Apply duplicate options with desired mux but without transcoding.
@@ -294,6 +300,12 @@ public:
     */
     void setOptions(const QStringList &options);
 
+    /*!
+        \brief Set audio slave media
+        \param location audio slave location (QString)
+    */
+    void setAudioSlave(const QString &location);
+
 signals:
     /*!
         \brief Signal sent on meta change
@@ -353,6 +365,7 @@ private:
     libvlc_event_manager_t *_vlcEvents;
 
     QString _currentLocation;
+    QString _currentAudioSlave;
 };
 
 #endif // VLCQT_MEDIA_H_

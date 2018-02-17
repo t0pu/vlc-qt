@@ -181,6 +181,11 @@ void VlcQmlPlayer::setUrl(const QUrl &url)
         _media = new VlcMedia(url.toString(QUrl::FullyEncoded), false, _instance);
     }
 
+    if(!_audioSlaveUrl.isEmpty())
+    {
+        _media->setAudioSlave(_audioSlaveUrl.toString(QUrl::FullyEncoded));
+    }
+
     connect(_media, static_cast<void (VlcMedia::*)(bool)>(&VlcMedia::parsedChanged), this, &VlcQmlPlayer::mediaParsed);
 
     openInternal();
@@ -355,3 +360,20 @@ int VlcQmlPlayer::preferredSubtitleTrackId()
 
     return currentTrackId;
 }
+
+QUrl VlcQmlPlayer::audioSlaveUrl() const
+{
+    return _audioSlaveUrl;
+}
+
+void VlcQmlPlayer::setAudioSlaveUrl(const QUrl &url)
+{
+    if(url == audioSlaveUrl())
+        return;
+
+    _audioSlaveUrl = url;
+
+    emit audioSlaveUrlChanged();
+}
+
+

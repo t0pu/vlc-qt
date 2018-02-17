@@ -180,6 +180,14 @@ class VlcQmlPlayer : public VlcQmlSource
      */
     Q_PROPERTY(int videoTrack READ videoTrack WRITE setVideoTrack NOTIFY videoTrackChanged)
 
+    /*!
+        \brief Current audio slave media URL
+        \see audioSlaveUrl
+        \see setAudioSlaveUrl
+        \see audioSlaveUrlChanged
+     */
+    Q_PROPERTY(QUrl audioSlaveUrl READ audioSlaveUrl WRITE setAudioSlaveUrl NOTIFY audioSlaveUrlChanged)
+
 public:
     /*!
         \brief VlcQmlPlayer constructor
@@ -328,6 +336,24 @@ public:
         Used as property in QML.
      */
     void setUrl(const QUrl &url);
+
+
+    /*!
+        \brief Get current audio slave media URL
+        \return current audio slave media URL
+
+        Used as property in QML.
+     */
+    QUrl audioSlaveUrl() const;
+
+    /*!
+        \brief Set audio slave media URL - set property audio slave AFTER setting url property in QML
+        \param url new audio slave media URL
+        \see setUrl
+
+        Used as property in QML.
+     */
+    void setAudioSlaveUrl(const QUrl &url);
 
     /*!
         \brief Get current volume
@@ -525,6 +551,11 @@ signals:
     */
     void videoTrackChanged();
 
+    /*!
+        \brief Audio slave URL changed signal
+    */
+    void audioSlaveUrlChanged();
+
 private slots:
     void mediaParsed(bool parsed);
     void mediaPlayerVout(int count);
@@ -547,6 +578,8 @@ private:
 
     QStringList _audioPreferredLanguages;
     QStringList _subtitlePreferredLanguages;
+
+    QUrl _audioSlaveUrl;
 };
 
 #endif // VLCQT_QMLPLAYER_H_

@@ -136,6 +136,11 @@ QString VlcMedia::currentLocation() const
     return _currentLocation;
 }
 
+QString VlcMedia::audioSlave() const
+{
+    return _currentAudioSlave;
+}
+
 VlcStats *VlcMedia::getStats()
 {
     libvlc_media_stats_t *coreStats = new libvlc_media_stats_t;
@@ -342,6 +347,17 @@ void VlcMedia::setOptions(const QStringList &options)
     }
 
     VlcError::showErrmsg();
+}
+
+void VlcMedia::setAudioSlave(const QString &location)
+{
+    _currentAudioSlave = location;
+
+    libvlc_media_slaves_clear(_vlcMedia); // only allow one slave (would also remove subtitle slaves)
+
+    // priority = 4 (high priority)
+    // type = audio
+    libvlc_media_slaves_add(_vlcMedia, libvlc_media_slave_type_audio, 4, location.toUtf8().data());
 }
 
 void VlcMedia::libvlc_callback(const libvlc_event_t *event,
